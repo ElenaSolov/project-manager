@@ -1,4 +1,4 @@
-import Project from "../Project";
+import Project from "../Project.js";
 
 export interface IIsValid {
     value: string | number;
