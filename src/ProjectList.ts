@@ -9,11 +9,12 @@ import {autobind} from "./decorators/autobind.js";
 
 class ProjectList extends Component<HTMLDivElement, HTMLElement> implements IDragTarget {
     assignedProjects: Project[] = [];
+    private projectState: ProjectState;
 
     constructor(private type: projectStatus) {
         super("project-list", "app", false, `${type}-projects` )
-        const projectState = ProjectState.getInstance();
-        projectState.addListeners((projects :Project[])=> {
+        this.projectState = ProjectState.getInstance();
+        this.projectState.addListeners((projects :Project[])=> {
             this.assignedProjects = projects.filter(prj => prj.status.toString() === type);
             this.renderProjects();
         })
@@ -29,25 +30,29 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> implements IDra
     private renderProjects(){
         const listEl = document.getElementById(`${this.type}-project-list`) as HTMLUListElement;
         listEl.innerHTML = '';
-        console.log(listEl)
         for(const prj of this.assignedProjects){
             new ProjectItem(prj, this.type);
         }
     }
-
-    handleDragLeave(event: DragEvent): void {
-        console.log(event)
-    }
     @autobind
     handleDragOver(event: DragEvent): void {
-        console.log(this.element)
-        this.element.querySelector('ul')!.classList.add('droppable');
-        console.log(event)
-
+        if(event.dataTransfer&&event.dataTransfer.types){
+            event.preventDefault();
+            this.element.querySelector('ul')!.classList.add('droppable');
+        }
     }
 
+    @autobind
+    handleDragLeave(_: DragEvent): void {
+        this.element.querySelector('ul')!.classList.remove('droppable');
+    }
+
+
+    @autobind
     handleDrop(event: DragEvent): void {
-        console.log(event)
+        const prjId = event.dataTransfer!.getData('id');
+        console.log(this.type)
+        this.projectState.moveProject(prjId, this.type)
     }
     setEventListeners(){
         this.element.addEventListener('dragover', this.handleDragOver);

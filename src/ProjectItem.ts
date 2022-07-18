@@ -1,6 +1,7 @@
 import Component from "./Component.js";
 import Project from "./Project.js";
 import {IDraggable} from "./interfaces/dnd.js";
+import {autobind} from "./decorators/autobind.js";
 
 class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements IDraggable {
     private project: Project;
@@ -10,8 +11,10 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements 
         }
         return `${this.project.numOfPeople} persons`
     }
+    @autobind
     handleDragStart(event: DragEvent) {
-        console.log(event)
+        event.dataTransfer!.effectAllowed = 'move';
+        event.dataTransfer!.setData('id', this.project.id.toString())
     }
     handleDragEnd(event: DragEvent) {
         console.log(event)

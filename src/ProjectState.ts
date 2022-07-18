@@ -1,5 +1,5 @@
-import Project from "./Project";
-import {projectStatus, TListener} from "./types/types";
+import Project from "./Project.js";
+import {projectStatus, TListener} from "./types/types.js";
 
 class ProjectState {
     private listeners : TListener[] = [];
@@ -8,15 +8,7 @@ class ProjectState {
     private constructor () {
     }
 
-    addProject(title: string, description: string, numOfPeople: number) {
-        const newProject = new Project(title, description, numOfPeople, projectStatus.active);
-        console.log(newProject)
-        this.projects.push(newProject);
-        for (const fn of this.listeners){
-            fn(this.projects.slice());
-        }
-        console.log(this.projects)
-    }
+
     public static getInstance (){
         if (this.instance){
             return this.instance;
@@ -26,6 +18,27 @@ class ProjectState {
     }
     addListeners(listenerFn : TListener) {
         this.listeners.push(listenerFn);
+    }
+    addProject(title: string, description: string, numOfPeople: number) {
+        const newProject = new Project(title, description, numOfPeople, projectStatus.active);
+        console.log(newProject)
+        this.projects.push(newProject);
+        this.updateListeners();
+        console.log(this.projects)
+    }
+    moveProject(id: string, newStatus: projectStatus){
+        const project = this.projects.find(prj => prj.id === +id);
+        if(project) {
+            project.status = newStatus;
+            this.updateListeners();
+        }
+
+    }
+
+    private updateListeners(){
+        for (const fn of this.listeners){
+            fn(this.projects.slice());
+        }
     }
 }
 export default ProjectState;

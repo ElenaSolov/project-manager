@@ -1,4 +1,4 @@
-import { projectStatus } from './types/types';
+import { projectStatus } from './types/types.js';
 
 class Project {
     public id: number = Math.random();
