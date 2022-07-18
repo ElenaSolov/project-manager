@@ -28,7 +28,7 @@ class ProjectState {
     }
     moveProject(id: string, newStatus: projectStatus){
         const project = this.projects.find(prj => prj.id === +id);
-        if(project) {
+        if(project&&project.status !== newStatus) {
             project.status = newStatus;
             this.updateListeners();
         }
