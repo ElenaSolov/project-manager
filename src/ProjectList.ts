@@ -47,13 +47,12 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> implements IDra
         this.element.querySelector('ul')!.classList.remove('droppable');
     }
 
-
     @autobind
     handleDrop(event: DragEvent): void {
         const prjId = event.dataTransfer!.getData('id');
-        console.log(this.type)
         this.projectState.moveProject(prjId, this.type)
     }
+
     setEventListeners(){
         this.element.addEventListener('dragover', this.handleDragOver);
         this.element.addEventListener('dragleave', this.handleDragLeave);

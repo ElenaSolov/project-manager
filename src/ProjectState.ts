@@ -21,10 +21,8 @@ class ProjectState {
     }
     addProject(title: string, description: string, numOfPeople: number) {
         const newProject = new Project(title, description, numOfPeople, projectStatus.active);
-        console.log(newProject)
         this.projects.push(newProject);
         this.updateListeners();
-        console.log(this.projects)
     }
     moveProject(id: string, newStatus: projectStatus){
         const project = this.projects.find(prj => prj.id === +id);

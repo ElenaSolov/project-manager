@@ -16,9 +16,7 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements 
         event.dataTransfer!.effectAllowed = 'move';
         event.dataTransfer!.setData('id', this.project.id.toString())
     }
-    handleDragEnd(event: DragEvent) {
-        console.log(event)
-
+    handleDragEnd(_: DragEvent) {
     }
 
 
@@ -26,7 +24,6 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements 
         super('single-project', `${type}-project-list`, true, `${project.id}`);
         this.project=project;
         this.addContent();
-        console.log(this.element);
         this.setEventListeners();
     }
 
