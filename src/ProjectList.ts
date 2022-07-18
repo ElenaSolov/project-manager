@@ -2,9 +2,12 @@ import Project from "./Project.js";
 import Component from "./Component.js";
 import {projectStatus} from "./types/types.js";
 import ProjectState from "./ProjectState.js";
+import {IDragTarget} from "./interfaces/dnd.js";
+import ProjectItem from "./ProjectItem.js";
+import {autobind} from "./decorators/autobind.js";
 
 
-class ProjectList extends Component<HTMLDivElement, HTMLElement> {
+class ProjectList extends Component<HTMLDivElement, HTMLElement> implements IDragTarget {
     assignedProjects: Project[] = [];
 
     constructor(private type: projectStatus) {
@@ -15,6 +18,7 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
             this.renderProjects();
         })
         this.addContent();
+        this.setEventListeners();
     }
 
     addContent(){
@@ -27,10 +31,28 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
         listEl.innerHTML = '';
         console.log(listEl)
         for(const prj of this.assignedProjects){
-            const listItem = document.createElement('li');
-            listItem.textContent = prj.title;
-            listEl.appendChild(listItem);
+            new ProjectItem(prj, this.type);
         }
+    }
+
+    handleDragLeave(event: DragEvent): void {
+        console.log(event)
+    }
+    @autobind
+    handleDragOver(event: DragEvent): void {
+        console.log(this.element)
+        this.element.querySelector('ul')!.classList.add('droppable');
+        console.log(event)
+
+    }
+
+    handleDrop(event: DragEvent): void {
+        console.log(event)
+    }
+    setEventListeners(){
+        this.element.addEventListener('dragover', this.handleDragOver);
+        this.element.addEventListener('dragleave', this.handleDragLeave);
+        this.element.addEventListener('drop', this.handleDrop);
     }
 }
 
