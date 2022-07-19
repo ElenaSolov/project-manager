@@ -1,6 +1,6 @@
 export interface IDraggable{
     handleDragStart(event: DragEvent): void;
-    handleDragEnd(event: DragEvent): void;
+    handleDrag(event: DragEvent): void;
 }
 export interface IDragTarget{
     handleDragOver(event: DragEvent): void;

@@ -1,9 +1,11 @@
 {
-  "name": "understanding-typescript",
+  "name": "Typescript drag and drop project manager",
   "version": "1.0.0",
-  "description": "Understanding TypeScript Course Setup",
+  "description": "Typescript drag and drop project manager",
   "main": "app.js",
   "scripts": {
+    "build": "cross-env NODE_ENV=production parcel build src/index.html --public-url .",
+    "deploy": "gh-pages -d dist",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run lite",
     "lite": "lite-server"
@@ -12,9 +14,13 @@
     "typescript",
     "course"
   ],
-  "author": "Maximilian Schwarzmüller",
+  "author": "Elena Soloveva",
   "license": "ISC",
   "devDependencies": {
-    "lite-server": "^2.6.1"
+    "cross-env": "^5.2.0",
+    "gh-pages": "^1.2.0",
+    "lite-server": "^2.6.1",
+    "parcel-bundler": "^1.9.7",
+    "typescript": "^2.9.2"
   }
 }
