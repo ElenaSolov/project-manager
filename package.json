@@ -1,5 +1,5 @@
 {
-  "name": "Typescript drag and drop project manager",
+  "name": "project_manager",
   "version": "1.0.0",
   "description": "Typescript drag and drop project manager",
   "main": "app.js",
